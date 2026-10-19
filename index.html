@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Arma — In the Drift</title>
-<meta name="description" content="Arma — a student & aspiring solo dev, drifting between code and art. Learning games, 3D, and visual art." />
+<title>Arma Dev</title>
+<meta name="description" content="Arma — a student and hobbyist game developer working mostly in C# and Unity, with detours through 3D, pixel art and sound." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <script>(function () {
   var d = document.documentElement; d.className += ' js';
   var r = false; try { r = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
@@ -17,120 +17,243 @@
 })();</script>
 <style>
   :root {
-    --bg: #08090c;
-    --bg-2: #0e0f15;
+    --bg: #07080b;
+    --bg-2: #0b0c13;
     --panel: rgba(255, 255, 255, 0.035);
+    --panel-2: rgba(255, 255, 255, 0.06);
     --border: rgba(230, 190, 110, 0.20);
+    --line: rgba(230, 230, 240, 0.09);
     --gold: #e4ba5e;
     --gold-bright: #f6dda0;
     --gold-soft: #c3b183;
+    --celeste: #a9c0f0;
     --text: #edeff5;
     --muted: #99a0b0;
     --halo: rgba(228, 186, 94, 0.30);
+    --mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 86px; }
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
     background:
-      radial-gradient(1100px 650px at 74% -12%, rgba(228, 186, 94, 0.10), transparent 60%),
-      radial-gradient(820px 560px at 8% 112%, rgba(150, 170, 210, 0.045), transparent 55%),
-      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      radial-gradient(1200px 720px at 82% -12%, rgba(228, 186, 94, 0.13), transparent 60%),
+      radial-gradient(1050px 760px at 8% 108%, rgba(118, 104, 196, 0.14), transparent 55%),
+      radial-gradient(760px 620px at 50% 46%, rgba(78, 92, 150, 0.06), transparent 72%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 55%, #0e0f17 100%);
     background-attachment: fixed;
     color: var(--text);
     line-height: 1.65;
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+  a { color: inherit; }
+  .wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 28px; }
 
-  .wrap { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 0 16px; }
-
-  /* hero */
-  .hero { display: flex; flex-direction: column; justify-content: center; min-height: 92vh; padding: 80px 0 40px; }
-
-  .intro { max-width: 720px; }
-  .eyebrow { letter-spacing: 0.42em; text-transform: uppercase; font-size: 0.72rem; color: var(--gold); margin-bottom: 14px; }
-  .intro h1 { font-size: clamp(2.6rem, 7vw, 4.4rem); font-weight: 600; line-height: 1.02; letter-spacing: 0.01em; }
-  .intro h1 .name { color: var(--gold-bright); text-shadow: 0 0 30px rgba(228,186,94,0.35); }
-  .quote {
-    font-family: 'Cormorant Garamond', serif; font-style: italic;
-    font-size: clamp(1.15rem, 2.4vw, 1.5rem); color: var(--muted);
-    margin: 20px 0 26px; padding-left: 18px; border-left: 2px solid var(--border);
+  /* ---------- celestial backdrop ---------- */
+  .grid {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(228, 186, 94, 0.040) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(228, 186, 94, 0.040) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(circle at 50% 32%, #000 0%, rgba(0,0,0,0.4) 55%, transparent 80%);
+    mask-image: radial-gradient(circle at 50% 32%, #000 0%, rgba(0,0,0,0.4) 55%, transparent 80%);
   }
-  .facts { list-style: none; display: grid; gap: 10px; }
-  .facts li { display: flex; gap: 12px; align-items: baseline; font-weight: 300; }
-  .facts .ic { font-style: normal; }
-  .facts b { color: var(--text); font-weight: 500; }
-  .facts .dim { color: var(--muted); font-style: italic; }
+  .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .star { position: absolute; border-radius: 50%; opacity: var(--base, 0.5); will-change: opacity, transform; }
+  .motion-on .star { animation: twinkle var(--dur, 4s) ease-in-out var(--delay, 0s) infinite; }
+  @keyframes twinkle {
+    0%, 100% { opacity: calc(var(--base, 0.6) * 0.28); transform: scale(0.75); }
+    50%      { opacity: var(--base, 0.8);               transform: scale(1.1); }
+  }
 
-  .socials { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
-  .socials a {
+  /* ---------- nav ---------- */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.scrolled {
+    background: rgba(7, 8, 11, 0.8);
+    border-bottom: 1px solid var(--line);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand {
+    font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.5rem;
+    color: var(--gold-bright); text-decoration: none; letter-spacing: 0.04em;
     display: inline-flex; align-items: center; gap: 8px;
-    color: var(--muted); text-decoration: none; font-size: 0.82rem;
-    border: 1px solid var(--border); padding: 8px 14px; border-radius: 9px;
-    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   }
-  .socials img { width: 16px; height: 16px; }
-  .socials a:hover { transform: translateY(-2px); border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 0 18px var(--halo); }
-
-  /* sections */
-  section { padding: 66px 0; }
-  .sec-head { text-align: center; margin-bottom: 36px; }
-  .sec-head h2 {
-    font-family: 'Cormorant Garamond', serif; font-size: clamp(1.9rem, 4.5vw, 2.8rem);
-    font-weight: 600; color: var(--gold-bright); letter-spacing: 0.02em;
+  .brand .mark { color: var(--gold); font-size: 0.7rem; transform: translateY(-1px); }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-family: var(--mono); text-decoration: none; color: var(--muted); font-size: 0.7rem;
+    letter-spacing: 0.14em; text-transform: uppercase; position: relative; padding: 4px 0;
+    transition: color 0.2s ease;
   }
-  .sec-head .sub { color: var(--muted); font-style: italic; font-size: 0.95rem; margin-top: 4px; }
+  .nav-links a::after {
+    content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 0;
+    background: var(--gold); transition: width 0.25s ease;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold-bright); }
+  .nav-links a.active::after { width: 100%; }
 
-  .divider { width: 100%; max-width: 380px; margin: 0 auto; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); position: relative; }
-  .divider::after { content: "◆"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-2); color: var(--gold); padding: 0 12px; font-size: 0.62rem; }
+  /* ---------- main stack above backdrop ---------- */
+  main.wrap { position: relative; z-index: 1; }
 
-  /* currently cooking */
-  .forge { max-width: 560px; margin: 0 auto; text-align: center; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 32px 26px; }
-  .forge p { color: var(--muted); }
-  .forge .links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
-  .linkbtn {
+  /* ---------- hero ---------- */
+  .hero { position: relative; min-height: 92vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 0 64px; }
+  .hero-inner { position: relative; z-index: 2; }
+  .hero-glow { position: absolute; z-index: 0; top: 18%; left: -6%; width: 520px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(228,186,94,0.16), transparent 68%); filter: blur(12px); pointer-events: none; }
+  .motion-on .hero-glow { animation: breathe 7s ease-in-out infinite; }
+  @keyframes breathe { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+
+  .orbit {
+    position: absolute; z-index: 0; top: 8%; right: -140px;
+    width: 440px; height: 440px; border: 1px solid rgba(228, 186, 94, 0.14);
+    border-radius: 50%; pointer-events: none;
+  }
+  .orbit::before { content: ""; position: absolute; inset: 70px; border: 1px solid rgba(169, 192, 240, 0.09); border-radius: 50%; }
+  .orbit-dot { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--gold-bright); box-shadow: 0 0 14px var(--halo), 0 0 26px rgba(228,186,94,0.4); }
+  .orbit-dot.inner { top: 70px; width: 6px; height: 6px; margin-left: -3px; background: var(--celeste); box-shadow: 0 0 12px rgba(169,192,240,0.55); }
+  .motion-on .orbit { animation: spin 54s linear infinite; }
+  .motion-on .orbit::before { animation: spin 34s linear infinite reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .eyebrow {
+    font-family: var(--mono); letter-spacing: 0.26em; text-transform: uppercase;
+    font-size: 0.72rem; color: var(--gold); margin-bottom: 22px;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before { content: "◇"; color: var(--gold-soft); font-size: 0.7rem; }
+  .display {
+    font-family: 'Cormorant Garamond', serif; font-weight: 600;
+    font-size: clamp(2.8rem, 7.2vw, 5.4rem); line-height: 1.02; letter-spacing: 0.005em;
+    max-width: 16ch;
+  }
+  .display .name { color: var(--gold-bright); text-shadow: 0 0 36px rgba(228, 186, 94, 0.4); }
+  .display .em { font-style: italic; color: var(--gold-soft); }
+  .lead { margin: 30px 0 0; max-width: 58ch; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.12rem); font-weight: 300; }
+  .lead b { color: var(--text); font-weight: 500; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+  .btn {
+    position: relative; overflow: hidden;
     display: inline-flex; align-items: center; gap: 9px;
-    padding: 11px 18px; border: 1px solid var(--border); border-radius: 10px;
-    color: var(--text); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.02em;
-    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    padding: 12px 22px; border: 1px solid var(--border);
+    text-decoration: none; color: var(--text); font-family: var(--mono); font-size: 0.78rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
-  .linkbtn img { width: 18px; height: 18px; }
-  .linkbtn:hover { transform: translateY(-2px); border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 0 20px var(--halo); }
+  .btn::after { content: ""; position: absolute; top: 0; left: -130%; width: 55%; height: 100%; background: linear-gradient(100deg, transparent, rgba(246,221,160,0.22), transparent); transform: skewX(-18deg); transition: left 0.55s ease; }
+  .btn:hover::after { left: 150%; }
+  .btn:hover { transform: translateY(-2px); border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 0 22px var(--halo); }
+  .btn-primary { background: linear-gradient(135deg, rgba(228,186,94,0.2), rgba(228,186,94,0.06)); border-color: rgba(228,186,94,0.45); color: var(--gold-bright); }
+  .hero-status {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 46px;
+    font-family: var(--mono); color: var(--muted); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px;
+    background: rgba(255,255,255,0.02);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-bright); box-shadow: 0 0 10px var(--halo); flex: 0 0 auto; }
+  .motion-on .dot { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.68); } }
 
-  /* studies */
-  .studies { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; max-width: 700px; margin: 0 auto; }
-  .study { min-width: 128px; padding: 16px 20px; background: var(--panel); border: 1px solid var(--border); border-radius: 14px; text-align: center; transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; }
-  .study:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(228,186,94,0.12); }
-  .study b { display: block; color: var(--text); font-weight: 500; font-size: 0.92rem; letter-spacing: 0.02em; }
-  .study span { display: block; color: var(--muted); font-size: 0.72rem; margin-top: 4px; }
+  /* ---------- sections ---------- */
+  section { padding: 78px 0; }
+  .sec-head { display: flex; gap: 24px; align-items: baseline; border-top: 1px solid var(--line); padding-top: 24px; margin-bottom: 44px; }
+  .sec-num { font-family: var(--mono); color: var(--gold); font-size: 0.82rem; letter-spacing: 0.12em; flex: 0 0 auto; }
+  .sec-num::before { content: "[ "; color: var(--gold-soft); }
+  .sec-num::after { content: " ]"; color: var(--gold-soft); }
+  .sec-head h2 { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: clamp(1.8rem, 4vw, 2.7rem); color: var(--gold-bright); line-height: 1.1; letter-spacing: 0.01em; }
+  .sec-sub { font-family: var(--mono); color: var(--muted); font-size: 0.78rem; margin-top: 6px; letter-spacing: 0.02em; }
 
-  /* tools */
-  .tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 16px; max-width: 640px; margin: 0 auto; }
-  .tool { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 10px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; text-decoration: none; color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
-  .tool img { width: 40px; height: 40px; }
-  .tool:hover { transform: translateY(-4px); border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 22px rgba(228,186,94,0.14); }
+  /* ---------- work ---------- */
+  .work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
+  .card {
+    position: relative; display: flex; flex-direction: column; gap: 14px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    padding: 26px 24px; text-decoration: none; color: var(--text);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  /* game-menu selection brackets */
+  .card::before, .card::after {
+    content: ""; position: absolute; width: 15px; height: 15px; border: 1.5px solid var(--gold-bright);
+    opacity: 0; transition: opacity 0.25s ease, inset 0.25s ease;
+  }
+  .card::before { top: 11px; left: 11px; border-right: 0; border-bottom: 0; }
+  .card::after { bottom: 11px; right: 11px; border-left: 0; border-top: 0; }
+  .card:hover { transform: translateY(-5px); border-color: var(--gold); background: var(--panel-2); box-shadow: 0 16px 46px rgba(0,0,0,0.55), 0 0 26px rgba(228,186,94,0.14); }
+  .card:hover::before { opacity: 0.95; top: 9px; left: 9px; }
+  .card:hover::after { opacity: 0.95; bottom: 9px; right: 9px; }
+  .card-top { display: flex; align-items: center; justify-content: space-between; }
+  .card-kind { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-soft); border: 1px solid var(--border); border-radius: 999px; padding: 4px 11px; }
+  .card-arrow { color: var(--muted); font-size: 1rem; transition: transform 0.25s ease, color 0.25s ease; }
+  .card:hover .card-arrow { transform: translate(3px, -3px); color: var(--gold-bright); }
+  .card h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.5rem; color: var(--gold-bright); line-height: 1.15; }
+  .card p { color: var(--muted); font-size: 0.9rem; font-weight: 300; flex: 1 1 auto; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chips span { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.04em; color: var(--muted); background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 6px; padding: 4px 9px; }
+  .all-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 26px; font-family: var(--mono); color: var(--gold-soft); text-decoration: none; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s ease, gap 0.2s ease; }
+  .all-link:hover { color: var(--gold-bright); gap: 13px; }
 
-  /* support */
-  .support { text-align: center; }
-  .support p { color: var(--muted); margin-bottom: 24px; max-width: 460px; margin-inline: auto; }
-  .kofi { display: inline-block; transition: transform 0.2s ease, filter 0.2s ease; }
-  .kofi:hover { transform: translateY(-3px); filter: drop-shadow(0 8px 20px rgba(228,186,94,0.3)); }
-  .kofi img { height: 54px; display: block; }
+  /* ---------- stack ---------- */
+  .stack-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 42px; }
+  .stack-group h4 { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; font-weight: 700; display: inline-flex; align-items: center; gap: 9px; }
+  .stack-group h4::before { content: "◆"; font-size: 0.55rem; color: var(--gold-soft); }
+  .tools { display: flex; flex-wrap: wrap; gap: 11px; }
+  .tool {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 16px 10px 13px; border: 1px solid var(--border); border-radius: 11px;
+    background: var(--panel); text-decoration: none; color: var(--muted);
+    font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.02em;
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .tool img { width: 22px; height: 22px; }
+  .tool:hover { transform: translateY(-3px); border-color: var(--gold); color: var(--gold-bright); background: var(--panel-2); box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 18px rgba(228,186,94,0.12); }
+  .stack-note { color: var(--muted); font-style: italic; font-size: 0.92rem; margin-top: 34px; }
 
-  footer { text-align: center; padding: 50px 0 70px; }
-  footer .foot-socials { display: flex; gap: 16px; justify-content: center; margin-bottom: 18px; }
-  footer .foot-socials a { color: var(--muted); transition: color 0.2s ease, transform 0.2s ease; display: inline-flex; }
-  footer .foot-socials a:hover { color: var(--gold-bright); transform: translateY(-2px); }
-  footer .foot-socials img { width: 20px; height: 20px; }
-  footer .mark { color: var(--gold-soft); font-style: italic; font-size: 0.85rem; letter-spacing: 0.3em; }
+  /* ---------- panel (HUD frame) ---------- */
+  .panel { position: relative; border: 1px solid var(--border); border-radius: 16px; background: rgba(255,255,255,0.022); padding: 22px 28px 10px; }
+  .panel::before, .panel::after { content: ""; position: absolute; width: 14px; height: 14px; border: 1.5px solid rgba(228,186,94,0.55); }
+  .panel::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; border-top-left-radius: 4px; }
+  .panel::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; border-bottom-right-radius: 4px; }
+  .panel-label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 6px; }
+  .caret { color: var(--gold-bright); margin-left: 4px; }
+  .motion-on .caret { animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
 
-  /* custom cursor */
+  /* ---------- now ---------- */
+  .now-list { display: grid; gap: 0; }
+  .now-row { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .now-row:last-child { border-bottom: 0; }
+  .now-row dt { font-family: var(--mono); color: var(--gold); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; padding-top: 3px; }
+  .now-row dd { color: var(--text); font-weight: 300; }
+
+  /* ---------- elsewhere ---------- */
+  .link-rows { display: grid; gap: 0; }
+  .link-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 24px 6px; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--text); transition: padding 0.25s ease, border-color 0.25s ease; }
+  .link-row:first-child { border-top: 1px solid var(--line); }
+  .link-row:hover { padding-left: 16px; border-color: rgba(228,186,94,0.45); }
+  .lr-main { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .lr-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--gold-bright); }
+  .lr-note { font-family: var(--mono); color: var(--muted); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .lr-go { color: var(--muted); font-size: 1rem; transition: transform 0.25s ease, color 0.25s ease; }
+  .link-row:hover .lr-go { transform: translate(4px, -4px); color: var(--gold-bright); }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--line); padding: 36px 0 60px; }
+  .foot-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+  .foot-mark { color: var(--gold-soft); font-style: italic; font-size: 0.95rem; letter-spacing: 0.04em; font-family: 'Cormorant Garamond', serif; }
+  .foot-copy { font-family: var(--mono); color: var(--muted); font-size: 0.68rem; letter-spacing: 0.1em; }
+
+  /* ---------- custom cursor ---------- */
   body.cursor-on, body.cursor-on * { cursor: none; }
   .cursor-dot, .cursor-ring { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.25s ease; }
   .cursor-dot { width: 7px; height: 7px; background: var(--gold-bright); border-radius: 50%; box-shadow: 0 0 10px var(--halo), 0 0 20px rgba(228,186,94,0.55); }
@@ -138,129 +261,199 @@
   .cursor-ring.hot { width: 54px; height: 54px; border-color: var(--gold-bright); background: rgba(228,186,94,0.08); }
   .cursor-on.cursor-ready .cursor-dot, .cursor-on.cursor-ready .cursor-ring { opacity: 1; }
 
-  /* scroll-reveal */
+  /* ---------- scroll reveal ---------- */
   .reveal { transition: opacity 0.85s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.85s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .js .reveal { opacity: 0; transform: translateY(28px); will-change: opacity, transform; }
+  .js .reveal { opacity: 0; transform: translateY(26px); will-change: opacity, transform; }
   .js .reveal.in { opacity: 1; transform: none; }
 
-  /* click ripple */
+  /* ---------- click ripple ---------- */
   .ripple { position: fixed; top: 0; left: 0; width: 14px; height: 14px; border: 1px solid var(--gold-bright); border-radius: 50%; pointer-events: none; z-index: 9997; box-shadow: 0 0 12px var(--halo); transform: translate(-50%, -50%) scale(0.3); animation: ripple 0.55s ease-out forwards; }
   @keyframes ripple { to { transform: translate(-50%, -50%) scale(3.6); opacity: 0; } }
 
-  /* motion toggle */
-  .motion-toggle { position: fixed; right: 18px; bottom: 18px; z-index: 10000; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--gold); cursor: pointer; font-size: 1.05rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+  /* ---------- motion toggle ---------- */
+  .motion-toggle { position: fixed; right: 18px; bottom: 18px; z-index: 10000; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--gold); cursor: pointer; font-size: 0.8rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
   .motion-toggle:hover { transform: translateY(-2px); border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 0 18px var(--halo); }
   .motion-off .motion-toggle { color: var(--muted); }
-  .motion-toggle .spin { display: inline-block; }
-  .motion-on .motion-toggle .spin { animation: slowspin 9s linear infinite; }
+  .motion-on .motion-toggle .spin { display: inline-block; animation: slowspin 9s linear infinite; }
   @keyframes slowspin { to { transform: rotate(360deg); } }
 
-  /* motion OFF: suppress motion, keep content visible */
+  /* ---------- motion OFF ---------- */
   .motion-off .reveal { opacity: 1; transform: none; transition: none; }
 
-  @media (max-width: 680px) {
-    .hero { padding-top: 60px; min-height: auto; }
-    .quote { border-left: none; padding-left: 0; }
+  /* ---------- responsive ---------- */
+  @media (max-width: 760px) {
+    .nav-links { gap: 18px; }
+    .nav-links a { font-size: 0.62rem; letter-spacing: 0.08em; }
+    .stack-cols { grid-template-columns: 1fr; gap: 34px; }
+    .now-row { grid-template-columns: 1fr; gap: 6px; padding: 16px 0; }
+    .sec-head { gap: 16px; }
+    .orbit { display: none; }
+  }
+  @media (max-width: 520px) {
+    .nav-links { display: none; }
+    .hero { min-height: auto; padding-top: 104px; }
+    .lr-name { font-size: 1.3rem; }
+    .hero-glow { width: 320px; height: 300px; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<div class="grid" aria-hidden="true"></div>
+<div class="stars" aria-hidden="true" id="stars"></div>
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">Arma<span class="mark">◆</span></a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#stack">Stack</a>
+      <a href="#now">Now</a>
+      <a href="#elsewhere">Elsewhere</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
 
   <!-- hero -->
   <header class="hero">
-    <div class="intro reveal">
-      <div class="eyebrow">Student &amp; Solo Dev</div>
-      <h1>Hayo, I'm <span class="name">Arma</span></h1>
-      <p class="quote">"Still learning — but building something worth making."</p>
-      <ul class="facts">
-        <li><i class="ic">🕯️</i><span>A student &amp; aspiring <b>solo dev</b> — drifting between <b>code</b> and <b>art</b></span></li>
-        <li><i class="ic">🌱</i><span>Learning to <b>build, compose &amp; render</b> my own small worlds</span></li>
-        <li><i class="ic">🎨</i><span>Chasing the solo-dev path, one step at a time</span></li>
-        <li><i class="ic">📫</i><span>How to reach me — <span class="dim">catch me on itch.io or ArtStation.</span></span></li>
-      </ul>
-      <div class="socials">
-        <a href="https://armalatv.itch.io/" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/itchdotio/e4ba5e" alt="" />itch.io</a>
-        <a href="https://www.artstation.com/armalatv" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/artstation/e4ba5e" alt="" />ArtStation</a>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="orbit" aria-hidden="true"><span class="orbit-dot"></span><span class="orbit-dot inner"></span></div>
+    <div class="hero-inner reveal">
+      <p class="eyebrow">Student · Solo game dev</p>
+      <h1 class="display">Hayo, I'm <span class="name">Arma</span> — building small worlds in <span class="em">code</span> &amp; <span class="em">art</span>.</h1>
+      <p class="lead">A hobbyist game developer working mostly in <b>C#</b> and <b>Unity</b>, with detours through <b>3D</b>, <b>pixel art</b> and <b>sound</b>. Always building some small thing.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#work">See the work</a>
+        <a class="btn" href="https://armalatv.itch.io/" target="_blank" rel="noreferrer">itch.io ↗</a>
+        <a class="btn" href="https://github.com/ArmaLv" target="_blank" rel="noreferrer">GitHub ↗</a>
       </div>
+      <div class="hero-status"><span class="dot"></span> Building game systems &amp; small tools</div>
     </div>
   </header>
 
-  <!-- works teaser -->
-  <section id="cooking" class="reveal">
-    <div class="sec-head">
-      <h2>Currently Cooking</h2>
-      <div class="sub">small worlds taking shape in the dark</div>
-    </div>
-    <div class="forge">
-      <p>Nothing shipped… <em>yet</em>. I'm still learning to build games and art on my own —
-      but the forge is lit. When my work surfaces, it'll land here:</p>
-      <div class="links">
-        <a class="linkbtn" href="https://armalatv.itch.io/" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/itchdotio/e4ba5e" alt="" />Games on itch.io</a>
-        <a class="linkbtn" href="https://www.artstation.com/armalatv" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/artstation/e4ba5e" alt="" />Art on ArtStation</a>
+  <!-- work -->
+  <section id="work">
+    <div class="sec-head reveal">
+      <span class="sec-num">01</span>
+      <div>
+        <h2>Selected Work</h2>
+        <p class="sec-sub">// small tools and projects I've built or keep tending</p>
       </div>
     </div>
+    <div class="work-grid">
+      <a class="card reveal" href="https://github.com/ArmaLv/DialogueSystem" target="_blank" rel="noreferrer">
+        <div class="card-top"><span class="card-kind">Original</span><span class="card-arrow">↗</span></div>
+        <h3>DialogueSystem</h3>
+        <p>A dialogue system for 2D Unity games — branching lines, portraits and conversation logic, driven by a custom in-editor tool.</p>
+        <div class="chips"><span>Unity</span><span>C#</span><span>2D</span><span>Editor tool</span></div>
+      </a>
+      <a class="card reveal" href="https://github.com/ArmaLv/Neuro-Theme" target="_blank" rel="noreferrer" style="transition-delay: 0.06s">
+        <div class="card-top"><span class="card-kind">Original</span><span class="card-arrow">↗</span></div>
+        <h3>Neuro-Theme</h3>
+        <p>A Neuro-sama inspired theme for Discord — a small styling project in pure CSS, built just for the fun of it.</p>
+        <div class="chips"><span>CSS</span><span>Discord</span><span>Theming</span></div>
+      </a>
+      <a class="card reveal" href="https://github.com/ArmaLv/StyTab" target="_blank" rel="noreferrer" style="transition-delay: 0.12s">
+        <div class="card-top"><span class="card-kind">Fork · maintained</span><span class="card-arrow">↗</span></div>
+        <h3>StyTab</h3>
+        <p>A minimalist browser start page that meets your needs — a fork I tweak and keep shaped to my own workflow.</p>
+        <div class="chips"><span>JavaScript</span><span>Web</span><span>Startpage</span></div>
+      </a>
+    </div>
+    <a class="all-link" href="https://github.com/ArmaLv?tab=repositories" target="_blank" rel="noreferrer">All repositories ↗</a>
   </section>
 
-  <!-- learning -->
-  <section id="study" class="reveal">
-    <div class="sec-head">
-      <h2>The Long Study</h2>
-      <div class="sub">what I'm learning to wield</div>
+  <!-- stack -->
+  <section id="stack">
+    <div class="sec-head reveal">
+      <span class="sec-num">02</span>
+      <div>
+        <h2>Stack</h2>
+        <p class="sec-sub">// the tools I reach for</p>
+      </div>
     </div>
-    <div class="studies">
-      <div class="study"><b>Unity</b><span>engine &amp; its components</span></div>
-      <div class="study"><b>Blender</b><span>3D &amp; rendering</span></div>
-      <div class="study"><b>Pixel Composer</b><span>pixel FX</span></div>
-      <div class="study"><b>Musical Art</b><span>sound &amp; score</span></div>
-      <div class="study"><b>Visual Art</b><span>illustration</span></div>
+    <div class="stack-cols reveal">
+      <div class="stack-group">
+        <h4>Make</h4>
+        <div class="tools">
+          <a class="tool" href="https://unity.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/unity/unity-original.svg" alt="" />Unity</a>
+          <a class="tool" href="https://www.unrealengine.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/kenangundogan/fontisto/036b7eca71aab1bef8e6a0518f7329f13ed62f6b/icons/svg/brand/unreal-engine.svg" alt="" />Unreal</a>
+          <a class="tool" href="https://www.blender.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/blender/blender-original.svg" alt="" />Blender</a>
+        </div>
+      </div>
+      <div class="stack-group">
+        <h4>Code</h4>
+        <div class="tools">
+          <a class="tool" href="https://learn.microsoft.com/dotnet/csharp/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="" />C#</a>
+          <a class="tool" href="https://www.python.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="" />Python</a>
+          <a class="tool" href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="" />JavaScript</a>
+          <a class="tool" href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="" />HTML5</a>
+          <a class="tool" href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="" />CSS3</a>
+          <a class="tool" href="https://www.linux.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="" />Linux</a>
+        </div>
+      </div>
+    </div>
+    <p class="stack-note reveal">Also poking at pixel art, 3D and sound design — a little of everything.</p>
+  </section>
+
+  <!-- now -->
+  <section id="now">
+    <div class="sec-head reveal">
+      <span class="sec-num">03</span>
+      <div>
+        <h2>Now</h2>
+        <p class="sec-sub">// where my time is going lately</p>
+      </div>
+    </div>
+    <div class="panel reveal">
+      <div class="panel-label">Status<span class="caret">▌</span></div>
+      <dl class="now-list">
+        <div class="now-row"><dt>Building</dt><dd>Game systems and small tools — the kind of thing you reuse in every project.</dd></div>
+        <div class="now-row"><dt>Learning</dt><dd>Always something new. Right now: tightening up Unity workflows and gameplay feel.</dd></div>
+        <div class="now-row"><dt>Off-screen</dt><dd>Anime, drawing, and the occasional deep rabbit hole.</dd></div>
+      </dl>
     </div>
   </section>
 
-  <!-- tools -->
-  <section id="arsenal" class="reveal">
-    <div class="sec-head">
-      <h2>The Arsenal</h2>
-      <div class="sub">the tools I reach for</div>
+  <!-- elsewhere -->
+  <section id="elsewhere">
+    <div class="sec-head reveal">
+      <span class="sec-num">04</span>
+      <div>
+        <h2>Elsewhere</h2>
+        <p class="sec-sub">// follow along, or buy me a coffee</p>
+      </div>
     </div>
-    <div class="tools">
-      <a class="tool" href="https://www.blender.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/blender/blender-original.svg" alt="" /><span>Blender</span></a>
-      <a class="tool" href="https://learn.microsoft.com/dotnet/csharp/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="" /><span>C#</span></a>
-      <a class="tool" href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="" /><span>CSS3</span></a>
-      <a class="tool" href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="" /><span>HTML5</span></a>
-      <a class="tool" href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="" /><span>JavaScript</span></a>
-      <a class="tool" href="https://www.linux.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="" /><span>Linux</span></a>
-      <a class="tool" href="https://www.python.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="" /><span>Python</span></a>
-      <a class="tool" href="https://unity.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/unity/unity-original.svg" alt="" /><span>Unity</span></a>
-      <a class="tool" href="https://www.unrealengine.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/kenangundogan/fontisto/036b7eca71aab1bef8e6a0518f7329f13ed62f6b/icons/svg/brand/unreal-engine.svg" alt="" /><span>Unreal</span></a>
+    <div class="link-rows reveal">
+      <a class="link-row" href="https://github.com/ArmaLv" target="_blank" rel="noreferrer">
+        <span class="lr-main"><span class="lr-name">GitHub</span><span class="lr-note">code &amp; projects</span></span>
+        <span class="lr-go">↗</span>
+      </a>
+      <a class="link-row" href="https://armalatv.itch.io/" target="_blank" rel="noreferrer">
+        <span class="lr-main"><span class="lr-name">itch.io</span><span class="lr-note">games, when they ship</span></span>
+        <span class="lr-go">↗</span>
+      </a>
+      <a class="link-row" href="https://www.artstation.com/armalatv" target="_blank" rel="noreferrer">
+        <span class="lr-main"><span class="lr-name">ArtStation</span><span class="lr-note">art &amp; renders</span></span>
+        <span class="lr-go">↗</span>
+      </a>
+      <a class="link-row" href="https://ko-fi.com/ArmaLatv" target="_blank" rel="noreferrer">
+        <span class="lr-main"><span class="lr-name">Ko-fi</span><span class="lr-note">support the work</span></span>
+        <span class="lr-go">↗</span>
+      </a>
     </div>
   </section>
 
-  <div class="divider reveal"></div>
-
-  <!-- support -->
-  <section class="support reveal" id="support">
-    <div class="sec-head">
-      <h2>Support</h2>
-      <div class="sub">a coffee keeps the work going</div>
+  <footer>
+    <div class="foot-inner">
+      <span class="foot-mark">thanks for drifting by</span>
+      <span class="foot-copy">◆ ARMA · MMXXVI</span>
     </div>
-    <p>If my work means something to you, you can keep it going with a coffee ☕</p>
-    <a class="kofi" href="https://ko-fi.com/ArmaLatv" target="_blank" rel="noreferrer">
-      <img src="https://cdn.ko-fi.com/cdn/kofi3.png?v=3" alt="Support Arma on Ko-fi" />
-    </a>
-  </section>
-
-  <footer class="reveal">
-    <div class="foot-socials">
-      <a href="https://armalatv.itch.io/" target="_blank" rel="noreferrer" aria-label="itch.io"><img src="https://cdn.simpleicons.org/itchdotio/c3b183" alt="itch.io" /></a>
-      <a href="https://www.artstation.com/armalatv" target="_blank" rel="noreferrer" aria-label="ArtStation"><img src="https://cdn.simpleicons.org/artstation/c3b183" alt="ArtStation" /></a>
-      <a href="https://ko-fi.com/ArmaLatv" target="_blank" rel="noreferrer" aria-label="Ko-fi"><img src="https://cdn.simpleicons.org/kofi/c3b183" alt="Ko-fi" /></a>
-    </div>
-    <span class="mark">thanks for drifting by</span>
   </footer>
 
-</div>
+</main>
 
 <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="true" aria-label="Toggle motion and effects" title="Motion on — click to reduce">
   <span class="spin">◆</span>
@@ -289,6 +482,50 @@
   syncUI();
   if (btn) btn.addEventListener('click', () => { motionOn = !motionOn; write(motionOn ? 'on' : 'off'); syncUI(); });
 
+  // starfield
+  (function () {
+    const layer = document.getElementById('stars'); if (!layer) return;
+    const palette = ['255,255,255', '246,221,160', '169,192,240'];
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < 74; i++) {
+      const s = document.createElement('span'); s.className = 'star';
+      const size = Math.random() < 0.14 ? (2.2 + Math.random() * 1.6) : (0.8 + Math.random() * 1.3);
+      const base = (0.35 + Math.random() * 0.55).toFixed(2);
+      const col = palette[Math.random() < 0.72 ? 0 : (Math.random() < 0.6 ? 1 : 2)];
+      s.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+      s.style.top = (Math.random() * 100).toFixed(2) + 'vh';
+      s.style.width = size.toFixed(2) + 'px';
+      s.style.height = size.toFixed(2) + 'px';
+      s.style.background = 'rgb(' + col + ')';
+      s.style.boxShadow = '0 0 ' + (size * 2.2).toFixed(1) + 'px rgba(' + col + ',0.7)';
+      s.style.setProperty('--base', base);
+      s.style.setProperty('--dur', (2.6 + Math.random() * 4.2).toFixed(2) + 's');
+      s.style.setProperty('--delay', (-Math.random() * 6).toFixed(2) + 's');
+      frag.appendChild(s);
+    }
+    layer.appendChild(frag);
+  })();
+
+  // nav: background on scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => { if (nav) nav.classList.toggle('scrolled', scrollY > 24); };
+  onScroll();
+  addEventListener('scroll', onScroll, { passive: true });
+
+  // nav: active section highlight
+  (function () {
+    const links = Array.from(document.querySelectorAll('.nav-links a'));
+    const map = new Map();
+    links.forEach((a) => { const el = document.querySelector(a.getAttribute('href')); if (el) map.set(el, a); });
+    if (!map.size || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach((en) => {
+        if (en.isIntersecting) { links.forEach((l) => l.classList.remove('active')); const a = map.get(en.target); if (a) a.classList.add('active'); }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    map.forEach((_, el) => io.observe(el));
+  })();
+
   // custom cursor (fine pointers; visible only while motion is on)
   if (fine) {
     const dot = document.createElement('div'); dot.className = 'cursor-dot';
@@ -306,36 +543,12 @@
       requestAnimationFrame(loop);
     })();
     const flare = (on) => ring.classList.toggle('hot', on);
-    document.querySelectorAll('a, .tool, .kofi, .study, .linkbtn, .motion-toggle').forEach((el) => {
+    document.querySelectorAll('a, button, .card, .tool, .link-row').forEach((el) => {
       el.addEventListener('mouseenter', () => flare(true));
       el.addEventListener('mouseleave', () => flare(false));
     });
     addEventListener('mouseleave', () => document.body.classList.remove('cursor-ready'));
     addEventListener('mouseenter', () => document.body.classList.add('cursor-ready'));
-  }
-
-  // inertial smooth scroll (only hijacks while motion is on)
-  if (fine) {
-    root.style.scrollBehavior = 'auto';
-    const EASE = 0.085;
-    const maxY = () => document.documentElement.scrollHeight - innerHeight;
-    let target = scrollY, current = target, running = false, selfScrolling = false;
-    function loop() {
-      current += (target - current) * EASE;
-      if (Math.abs(target - current) < 0.4) { current = target; running = false; }
-      selfScrolling = true; scrollTo(0, current); selfScrolling = false;
-      if (running) requestAnimationFrame(loop);
-    }
-    addEventListener('wheel', (e) => {
-      if (!motionOn || e.ctrlKey) return;
-      e.preventDefault();
-      let d = e.deltaY;
-      if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
-      target = Math.max(0, Math.min(target + d, maxY()));
-      if (!running) { running = true; requestAnimationFrame(loop); }
-    }, { passive: false });
-    addEventListener('scroll', () => { if (!selfScrolling && !running) target = current = scrollY; }, { passive: true });
-    addEventListener('resize', () => { target = Math.min(target, maxY()); });
   }
 
   // scroll-reveal
@@ -344,7 +557,7 @@
     if (!('IntersectionObserver' in window)) { items.forEach((el) => el.classList.add('in')); return; }
     const io = new IntersectionObserver((ents) => {
       ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     items.forEach((el) => io.observe(el));
   })();
 
