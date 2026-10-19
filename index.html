@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Arma — In the Drift</title>
+<meta name="description" content="Arma — a student & aspiring solo dev, drifting between code and art. Learning games, 3D, and visual art." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<script>(function () {
+  var d = document.documentElement; d.className += ' js';
+  var r = false; try { r = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  var s = null; try { s = localStorage.getItem('motion'); } catch (e) {}
+  var on = s ? s === 'on' : !r;
+  d.classList.add(on ? 'motion-on' : 'motion-off');
+})();</script>
+<style>
+  :root {
+    --bg: #08090c;
+    --bg-2: #0e0f15;
+    --panel: rgba(255, 255, 255, 0.035);
+    --border: rgba(230, 190, 110, 0.20);
+    --gold: #e4ba5e;
+    --gold-bright: #f6dda0;
+    --gold-soft: #c3b183;
+    --text: #edeff5;
+    --muted: #99a0b0;
+    --halo: rgba(228, 186, 94, 0.30);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background:
+      radial-gradient(1100px 650px at 74% -12%, rgba(228, 186, 94, 0.10), transparent 60%),
+      radial-gradient(820px 560px at 8% 112%, rgba(150, 170, 210, 0.045), transparent 55%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    background-attachment: fixed;
+    color: var(--text);
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+  /* drifting petals */
+  .petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .petal {
+    position: absolute; top: -6vh;
+    width: 10px; height: 10px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-soft));
+    border-radius: 60% 10% 60% 10%;
+    opacity: 0;
+    filter: drop-shadow(0 0 4px var(--halo));
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-10vh) rotate(0deg);   opacity: 0; }
+    10%  { opacity: 0.85; }
+    90%  { opacity: 0.65; }
+    100% { transform: translateY(112vh) rotate(420deg); opacity: 0; }
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 0 16px; }
+
+  /* hero */
+  .hero { display: flex; gap: 48px; align-items: center; min-height: 92vh; padding: 80px 0 40px; }
+  .portrait { position: relative; flex: 0 0 auto; }
+  .portrait::before {
+    content: ""; position: absolute; inset: -22px;
+    background: radial-gradient(circle at 50% 42%, var(--halo), transparent 68%);
+    filter: blur(6px); z-index: -1;
+  }
+  .portrait img {
+    width: 280px; max-width: 38vw; min-width: 180px;
+    border-radius: 14px; border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(228,186,94,0.10);
+    display: block;
+  }
+  .portrait figcaption {
+    text-align: center; margin-top: 12px;
+    font-size: 0.82rem; color: var(--gold-soft);
+    font-style: italic; letter-spacing: 0.02em;
+  }
+
+  .intro { flex: 1 1 auto; }
+  .eyebrow { letter-spacing: 0.42em; text-transform: uppercase; font-size: 0.72rem; color: var(--gold); margin-bottom: 14px; }
+  .intro h1 { font-size: clamp(2.6rem, 7vw, 4.4rem); font-weight: 600; line-height: 1.02; letter-spacing: 0.01em; }
+  .intro h1 .name { color: var(--gold-bright); text-shadow: 0 0 30px rgba(228,186,94,0.35); }
+  .quote {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: clamp(1.15rem, 2.4vw, 1.5rem); color: var(--muted);
+    margin: 20px 0 26px; padding-left: 18px; border-left: 2px solid var(--border);
+  }
+  .facts { list-style: none; display: grid; gap: 10px; }
+  .facts li { display: flex; gap: 12px; align-items: baseline; font-weight: 300; }
+  .facts .ic { font-style: normal; }
+  .facts b { color: var(--text); font-weight: 500; }
+  .facts .dim { color: var(--muted); font-style: italic; }
+
+  .socials { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .socials a {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--muted); text-decoration: none; font-size: 0.82rem;
+    border: 1px solid var(--border); padding: 8px 14px; border-radius: 9px;
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .socials img { width: 16px; height: 16px; }
+  .socials a:hover { transform: translateY(-2px); border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 0 18px var(--halo); }
+
+  /* sections */
+  section { padding: 66px 0; }
+  .sec-head { text-align: center; margin-bottom: 36px; }
+  .sec-head h2 {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+    font-weight: 600; color: var(--gold-bright); letter-spacing: 0.02em;
+  }
+  .sec-head .sub { color: var(--muted); font-style: italic; font-size: 0.95rem; margin-top: 4px; }
+
+  .divider { width: 100%; max-width: 380px; margin: 0 auto; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); position: relative; }
+  .divider::after { content: "✦"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-2); color: var(--gold); padding: 0 12px; font-size: 0.8rem; }
+
+  /* currently cooking */
+  .forge { max-width: 560px; margin: 0 auto; text-align: center; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 32px 26px; }
+  .forge p { color: var(--muted); }
+  .forge .links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+  .linkbtn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 11px 18px; border: 1px solid var(--border); border-radius: 10px;
+    color: var(--text); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.02em;
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .linkbtn img { width: 18px; height: 18px; }
+  .linkbtn:hover { transform: translateY(-2px); border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 0 20px var(--halo); }
+
+  /* studies */
+  .studies { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; max-width: 700px; margin: 0 auto; }
+  .study { min-width: 128px; padding: 16px 20px; background: var(--panel); border: 1px solid var(--border); border-radius: 14px; text-align: center; transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; }
+  .study:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(228,186,94,0.12); }
+  .study b { display: block; color: var(--text); font-weight: 500; font-size: 0.92rem; letter-spacing: 0.02em; }
+  .study span { display: block; color: var(--muted); font-size: 0.72rem; margin-top: 4px; }
+
+  /* tools */
+  .tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 16px; max-width: 640px; margin: 0 auto; }
+  .tool { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 10px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; text-decoration: none; color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+  .tool img { width: 40px; height: 40px; }
+  .tool:hover { transform: translateY(-4px); border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 22px rgba(228,186,94,0.14); }
+
+  /* support */
+  .support { text-align: center; }
+  .support p { color: var(--muted); margin-bottom: 24px; max-width: 460px; margin-inline: auto; }
+  .kofi { display: inline-block; transition: transform 0.2s ease, filter 0.2s ease; }
+  .kofi:hover { transform: translateY(-3px); filter: drop-shadow(0 8px 20px rgba(228,186,94,0.3)); }
+  .kofi img { height: 54px; display: block; }
+
+  footer { text-align: center; padding: 50px 0 70px; }
+  footer .foot-socials { display: flex; gap: 16px; justify-content: center; margin-bottom: 18px; }
+  footer .foot-socials a { color: var(--muted); transition: color 0.2s ease, transform 0.2s ease; display: inline-flex; }
+  footer .foot-socials a:hover { color: var(--gold-bright); transform: translateY(-2px); }
+  footer .foot-socials img { width: 20px; height: 20px; }
+  footer .mark { color: var(--gold-soft); font-style: italic; font-size: 0.85rem; letter-spacing: 0.3em; }
+
+  /* custom cursor */
+  body.cursor-on, body.cursor-on * { cursor: none; }
+  .cursor-dot, .cursor-ring { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.25s ease; }
+  .cursor-dot { width: 7px; height: 7px; background: var(--gold-bright); border-radius: 50%; box-shadow: 0 0 10px var(--halo), 0 0 20px rgba(228,186,94,0.55); }
+  .cursor-ring { width: 34px; height: 34px; border: 1px solid var(--gold); border-radius: 50%; z-index: 9998; box-shadow: 0 0 14px rgba(228,186,94,0.18); transition: opacity 0.25s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
+  .cursor-ring.hot { width: 54px; height: 54px; border-color: var(--gold-bright); background: rgba(228,186,94,0.08); }
+  .cursor-on.cursor-ready .cursor-dot, .cursor-on.cursor-ready .cursor-ring { opacity: 1; }
+
+  /* scroll-reveal */
+  .reveal { transition: opacity 0.85s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.85s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .js .reveal { opacity: 0; transform: translateY(28px); will-change: opacity, transform; }
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  .portrait img { transition: transform 0.25s ease, box-shadow 0.25s ease; transform-origin: center; }
+
+  /* click ripple */
+  .ripple { position: fixed; top: 0; left: 0; width: 14px; height: 14px; border: 1px solid var(--gold-bright); border-radius: 50%; pointer-events: none; z-index: 9997; box-shadow: 0 0 12px var(--halo); transform: translate(-50%, -50%) scale(0.3); animation: ripple 0.55s ease-out forwards; }
+  @keyframes ripple { to { transform: translate(-50%, -50%) scale(3.6); opacity: 0; } }
+
+  /* motion toggle */
+  .motion-toggle { position: fixed; right: 18px; bottom: 18px; z-index: 10000; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--gold); cursor: pointer; font-size: 1.05rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+  .motion-toggle:hover { transform: translateY(-2px); border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 0 18px var(--halo); }
+  .motion-off .motion-toggle { color: var(--muted); }
+  .motion-toggle .spin { display: inline-block; }
+  .motion-on .motion-toggle .spin { animation: slowspin 9s linear infinite; }
+  @keyframes slowspin { to { transform: rotate(360deg); } }
+
+  /* motion OFF: suppress motion, keep content visible */
+  .motion-off .petal { display: none; }
+  .motion-off .reveal { opacity: 1; transform: none; transition: none; }
+
+  @media (max-width: 680px) {
+    .hero { flex-direction: column; text-align: center; gap: 28px; padding-top: 60px; min-height: auto; }
+    .quote { border-left: none; padding-left: 0; }
+    .facts li { justify-content: center; }
+    .socials { justify-content: center; }
+    .portrait img { max-width: 70vw; }
+  }
+</style>
+</head>
+<body>
+
+<div class="petals" aria-hidden="true" id="petals"></div>
+
+<div class="wrap">
+
+  <!-- ✦ GLORY ON HIGH — hero -->
+  <header class="hero">
+    <figure class="portrait reveal">
+      <img src="Assets/Jade.jpg" alt="Jade, Warframe" />
+      <figcaption>✦ Jade — my light in the drift ✦</figcaption>
+    </figure>
+    <div class="intro reveal" style="transition-delay: 0.12s">
+      <div class="eyebrow">Glory on High</div>
+      <h1>Hayo, I'm <span class="name">Arma</span></h1>
+      <p class="quote">"From on high, a little light — and something worth making."</p>
+      <ul class="facts">
+        <li><i class="ic">🕯️</i><span>A student &amp; aspiring <b>solo dev</b> — drifting between <b>code</b> and <b>art</b></span></li>
+        <li><i class="ic">🌱</i><span>Learning to <b>build, compose &amp; render</b> my own small worlds</span></li>
+        <li><i class="ic">🎨</i><span>Chasing the solo-dev path, one verse at a time</span></li>
+        <li><i class="ic">📫</i><span>How to reach me — <span class="dim">...you don't. Light only travels one way.</span></span></li>
+      </ul>
+      <div class="socials">
+        <a href="https://armalatv.itch.io/" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/itchdotio/e4ba5e" alt="" />itch.io</a>
+        <a href="https://www.artstation.com/armalatv" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/artstation/e4ba5e" alt="" />ArtStation</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ✦ CURRENTLY COOKING — works teaser -->
+  <section id="cooking" class="reveal">
+    <div class="sec-head">
+      <h2>✦ Currently Cooking ✦</h2>
+      <div class="sub">small worlds taking shape in the dark</div>
+    </div>
+    <div class="forge">
+      <p>Nothing shipped… <em>yet</em>. I'm still learning to build games and art on my own —
+      but the forge is lit. When my work surfaces, it'll land here:</p>
+      <div class="links">
+        <a class="linkbtn" href="https://armalatv.itch.io/" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/itchdotio/e4ba5e" alt="" />Games on itch.io</a>
+        <a class="linkbtn" href="https://www.artstation.com/armalatv" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/artstation/e4ba5e" alt="" />Art on ArtStation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✦ THE LONG STUDY — learning -->
+  <section id="study" class="reveal">
+    <div class="sec-head">
+      <h2>✦ The Long Study ✦</h2>
+      <div class="sub">what I'm learning to wield</div>
+    </div>
+    <div class="studies">
+      <div class="study"><b>Unity</b><span>engine &amp; its components</span></div>
+      <div class="study"><b>Blender</b><span>3D &amp; rendering</span></div>
+      <div class="study"><b>Pixel Composer</b><span>pixel FX</span></div>
+      <div class="study"><b>Musical Art</b><span>sound &amp; score</span></div>
+      <div class="study"><b>Visual Art</b><span>illustration</span></div>
+    </div>
+  </section>
+
+  <!-- ✦ LIGHT VERDICT — tools -->
+  <section id="arsenal" class="reveal">
+    <div class="sec-head">
+      <h2>✦ Light Verdict ✦</h2>
+      <div class="sub">the instruments I channel</div>
+    </div>
+    <div class="tools">
+      <a class="tool" href="https://www.blender.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/blender/blender-original.svg" alt="" /><span>Blender</span></a>
+      <a class="tool" href="https://learn.microsoft.com/dotnet/csharp/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="" /><span>C#</span></a>
+      <a class="tool" href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="" /><span>CSS3</span></a>
+      <a class="tool" href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="" /><span>HTML5</span></a>
+      <a class="tool" href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="" /><span>JavaScript</span></a>
+      <a class="tool" href="https://www.linux.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="" /><span>Linux</span></a>
+      <a class="tool" href="https://www.python.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="" /><span>Python</span></a>
+      <a class="tool" href="https://unity.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/unity/unity-original.svg" alt="" /><span>Unity</span></a>
+      <a class="tool" href="https://www.unrealengine.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/kenangundogan/fontisto/036b7eca71aab1bef8e6a0518f7329f13ed62f6b/icons/svg/brand/unreal-engine.svg" alt="" /><span>Unreal</span></a>
+    </div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- ✦ SYMPHONY OF MERCY — support -->
+  <section class="support reveal" id="support">
+    <div class="sec-head">
+      <h2>✦ Symphony of Mercy ✦</h2>
+      <div class="sub">a small mercy keeps the hymn going</div>
+    </div>
+    <p>If a little of my light reaches you, you can keep the hymn going with a coffee 🕯️</p>
+    <a class="kofi" href="https://ko-fi.com/ArmaLatv" target="_blank" rel="noreferrer">
+      <img src="https://cdn.ko-fi.com/cdn/kofi3.png?v=3" alt="Support Arma on Ko-fi" />
+    </a>
+  </section>
+
+  <footer class="reveal">
+    <div class="foot-socials">
+      <a href="https://armalatv.itch.io/" target="_blank" rel="noreferrer" aria-label="itch.io"><img src="https://cdn.simpleicons.org/itchdotio/c3b183" alt="itch.io" /></a>
+      <a href="https://www.artstation.com/armalatv" target="_blank" rel="noreferrer" aria-label="ArtStation"><img src="https://cdn.simpleicons.org/artstation/c3b183" alt="ArtStation" /></a>
+      <a href="https://ko-fi.com/ArmaLatv" target="_blank" rel="noreferrer" aria-label="Ko-fi"><img src="https://cdn.simpleicons.org/kofi/c3b183" alt="Ko-fi" /></a>
+    </div>
+    <span class="mark">✦ thanks for drifting by ✦</span>
+  </footer>
+
+</div>
+
+<button class="motion-toggle" id="motionToggle" type="button" aria-pressed="true" aria-label="Toggle motion and effects" title="Motion on — click to reduce">
+  <span class="spin">✦</span>
+</button>
+
+<script>
+(function () {
+  'use strict';
+  const fine = matchMedia('(pointer: fine)').matches;
+  const root = document.documentElement;
+  const btn = document.getElementById('motionToggle');
+
+  function write(v) { try { localStorage.setItem('motion', v); } catch (e) {} }
+  let motionOn = root.classList.contains('motion-on');
+
+  function syncUI() {
+    root.classList.toggle('motion-on', motionOn);
+    root.classList.toggle('motion-off', !motionOn);
+    document.body.classList.toggle('cursor-on', motionOn && fine);
+    if (!motionOn) document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+    if (btn) {
+      btn.setAttribute('aria-pressed', String(motionOn));
+      btn.title = motionOn ? 'Motion on — click to reduce' : 'Motion off — click to enable';
+    }
+  }
+  syncUI();
+  if (btn) btn.addEventListener('click', () => { motionOn = !motionOn; write(motionOn ? 'on' : 'off'); syncUI(); });
+
+  // petals (hidden by CSS when motion is off)
+  (function () {
+    const layer = document.getElementById('petals'); if (!layer) return;
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('span'); p.className = 'petal';
+      const s = 6 + Math.random() * 9;
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.width = s + 'px'; p.style.height = s + 'px';
+      p.style.animationDuration = (9 + Math.random() * 11) + 's';
+      p.style.animationDelay = (-Math.random() * 16) + 's';
+      p.style.opacity = 0.5 + Math.random() * 0.4;
+      layer.appendChild(p);
+    }
+  })();
+
+  // custom cursor (fine pointers; visible only while motion is on)
+  if (fine) {
+    const dot = document.createElement('div'); dot.className = 'cursor-dot';
+    const ring = document.createElement('div'); ring.className = 'cursor-ring';
+    document.body.append(dot, ring);
+    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+    addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      if (!document.body.classList.contains('cursor-ready')) document.body.classList.add('cursor-ready');
+    }, { passive: true });
+    (function loop() {
+      rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(loop);
+    })();
+    const flare = (on) => ring.classList.toggle('hot', on);
+    document.querySelectorAll('a, .tool, .kofi, .study, .linkbtn, .motion-toggle').forEach((el) => {
+      el.addEventListener('mouseenter', () => flare(true));
+      el.addEventListener('mouseleave', () => flare(false));
+    });
+    addEventListener('mouseleave', () => document.body.classList.remove('cursor-ready'));
+    addEventListener('mouseenter', () => document.body.classList.add('cursor-ready'));
+  }
+
+  // inertial smooth scroll (only hijacks while motion is on)
+  if (fine) {
+    root.style.scrollBehavior = 'auto';
+    const EASE = 0.085;
+    const maxY = () => document.documentElement.scrollHeight - innerHeight;
+    let target = scrollY, current = target, running = false, selfScrolling = false;
+    function loop() {
+      current += (target - current) * EASE;
+      if (Math.abs(target - current) < 0.4) { current = target; running = false; }
+      selfScrolling = true; scrollTo(0, current); selfScrolling = false;
+      if (running) requestAnimationFrame(loop);
+    }
+    addEventListener('wheel', (e) => {
+      if (!motionOn || e.ctrlKey) return;
+      e.preventDefault();
+      let d = e.deltaY;
+      if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
+      target = Math.max(0, Math.min(target + d, maxY()));
+      if (!running) { running = true; requestAnimationFrame(loop); }
+    }, { passive: false });
+    addEventListener('scroll', () => { if (!selfScrolling && !running) target = current = scrollY; }, { passive: true });
+    addEventListener('resize', () => { target = Math.min(target, maxY()); });
+  }
+
+  // scroll-reveal
+  (function () {
+    const items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) { items.forEach((el) => el.classList.add('in')); return; }
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    items.forEach((el) => io.observe(el));
+  })();
+
+  // portrait parallax
+  if (fine) {
+    const figp = document.querySelector('.portrait');
+    const img = figp && figp.querySelector('img');
+    if (img) {
+      const MAX = 9;
+      figp.addEventListener('mousemove', (e) => {
+        if (!motionOn) { img.style.transform = ''; return; }
+        const r = figp.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        img.style.transform = `perspective(720px) rotateY(${px * MAX}deg) rotateX(${-py * MAX}deg) scale(1.03)`;
+      });
+      figp.addEventListener('mouseleave', () => { img.style.transform = ''; });
+    }
+  }
+
+  // click ripple
+  if (fine) {
+    addEventListener('pointerdown', (e) => {
+      if (!motionOn) return;
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      const r = document.createElement('span'); r.className = 'ripple';
+      r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px';
+      document.body.appendChild(r);
+      r.addEventListener('animationend', () => r.remove());
+    }, { passive: true });
+  }
+})();
+</script>
+
+</body>
+</html>
