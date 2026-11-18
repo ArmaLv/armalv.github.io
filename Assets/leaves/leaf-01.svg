@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="70.67 64.16 22.93 25.37">
+  <defs>
+    <style>
+      .cls-1{fill:#e8c1cc}
+      .cls-2{fill:#f4e8eb}
+      .cls-3{fill:#e4b8c4}
+      .cls-4{fill:#f3dee3}
+      .cls-5{fill:#f1d1da}
+      .cls-6{fill:#ebc7d1}
+      .cls-7{fill:#edd2d9}
+      .cls-8{fill:url(#linear-gradient-1)}
+      .cls-9{fill:#e1a5b7}
+      .cls-10{fill:#e6b0c0}
+      .cls-11{fill:url(#linear-gradient-2)}
+      .cls-12{fill:#db91a6}
+      .cls-13{fill:#cd6e88}
+      .cls-14{fill:#efbccc}
+      .cls-15{fill:#edc8d2}
+      .cls-16{fill:#e8aebe}
+    </style>
+    <linearGradient id="linear-gradient-1" x1="23.328" y1="36.492" x2="30.919" y2="39.346" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#edd5db"/>
+      <stop offset="1" stop-color="#f9f2f1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="59.105" y1="40.194" x2="53.762" y2="46.526" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e4b9c7"/>
+      <stop offset="1" stop-color="#ebd8dd"/>
+    </linearGradient>
+  </defs>
+  <g>
+        <path d="M74.679 75.269 C75.708 72.971 80.124 67.159 82.844 67.454 L83.837 68.825 C85.65 74.611 90.596 73.262 87.764 81.458 L85.864 83.872 C84.331 84.968 81.392 85.859 79.523 86.532 C76.619 83.231 73.67 79.94 74.679 75.269 Z" class="cls-1"/>
+        <path d="M74.679 75.269 L75.443 75.87 C78.244 74.586 77.694 72.024 79.62 71.58 C80.343 74.331 80.164 76.282 80.679 78.819 C80.419 80.622 80.373 80.831 80.587 82.614 C82.156 84.372 83.577 83.964 85.864 83.872 C84.331 84.968 81.392 85.859 79.523 86.532 C76.619 83.231 73.67 79.94 74.679 75.269 Z" class="cls-2"/>
+        <path d="M74.679 75.269 C75.708 72.971 80.124 67.159 82.844 67.454 L83.837 68.825 C83.862 71.142 84.122 75.972 83.491 77.958 C82.671 77.113 82.681 76.45 82.462 75.284 L81.815 74.825 C81.555 75.966 81.275 77.999 80.679 78.819 C80.164 76.282 80.343 74.331 79.62 71.58 C77.694 72.024 78.244 74.586 75.443 75.87 Z" class="cls-3"/>
+        <path d="M80.679 78.819 C81.275 77.999 81.555 75.966 81.815 74.825 L82.462 75.284 C82.472 77.301 82.115 79.008 83.032 80.48 C85.426 80.587 85.609 80.088 87.764 81.458 L85.864 83.872 C83.577 83.964 82.156 84.372 80.587 82.614 C80.373 80.831 80.419 80.622 80.679 78.819 Z" class="cls-4"/>
+      </g>
+</svg>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="45.17 32.32 21.88 19.26">
+  <defs>
+    <style>
+      .cls-1{fill:#e8c1cc}
+      .cls-2{fill:#f4e8eb}
+      .cls-3{fill:#e4b8c4}
+      .cls-4{fill:#f3dee3}
+      .cls-5{fill:#f1d1da}
+      .cls-6{fill:#ebc7d1}
+      .cls-7{fill:#edd2d9}
+      .cls-8{fill:url(#linear-gradient-1)}
+      .cls-9{fill:#e1a5b7}
+      .cls-10{fill:#e6b0c0}
+      .cls-11{fill:url(#linear-gradient-2)}
+      .cls-12{fill:#db91a6}
+      .cls-13{fill:#cd6e88}
+      .cls-14{fill:#efbccc}
+      .cls-15{fill:#edc8d2}
+      .cls-16{fill:#e8aebe}
+    </style>
+    <linearGradient id="linear-gradient-1" x1="23.328" y1="36.492" x2="30.919" y2="39.346" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#edd5db"/>
+      <stop offset="1" stop-color="#f9f2f1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="59.105" y1="40.194" x2="53.762" y2="46.526" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e4b9c7"/>
+      <stop offset="1" stop-color="#ebd8dd"/>
+    </linearGradient>
+  </defs>
+  <g>
+        <path d="M54.575 35.98 C57.216 35.869 61.062 35.321 63.304 36.072 C64.052 37.427 63.865 37.724 63.294 39.3 C62.961 43.827 63.204 46.185 58.666 48.224 C56.137 48.578 54.384 47.841 52.078 46.982 C48.171 42.368 51.321 39.571 54.575 35.98 Z" class="cls-2"/>
+        <path d="M54.575 35.98 C57.216 35.869 61.062 35.321 63.304 36.072 C64.052 37.427 63.865 37.724 63.294 39.3 C62.961 43.827 63.204 46.185 58.666 48.224 C58.401 47.364 58.784 45.999 58.553 44.568 L58.11 44.255 L58.018 43.567 C59.113 42.207 59.638 41.812 59.938 40.165 L59.053 39.212 L59.224 38.742 L58.828 38.165 C57.204 38.276 56.772 38.429 55.321 37.836 Z" class="cls-1"/>
+        <path d="M63.294 39.3 C62.961 43.827 63.204 46.185 58.666 48.224 C58.401 47.364 58.784 45.999 58.553 44.568 C60.35 43.009 61.778 41.138 63.294 39.3 Z" class="cls-6"/>
+        <path d="M52.078 46.982 C53.5 44.849 57.091 40.812 59.053 39.212 L59.938 40.165 C59.638 41.812 59.113 42.207 58.018 43.567 L58.11 44.255 L58.553 44.568 C58.784 45.999 58.401 47.364 58.666 48.224 C56.137 48.578 54.384 47.841 52.078 46.982 Z" class="cls-11"/>
+      </g>
+</svg>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="37.31 6.24 21.74 22.50">
+  <defs>
+    <style>
+      .cls-1{fill:#e8c1cc}
+      .cls-2{fill:#f4e8eb}
+      .cls-3{fill:#e4b8c4}
+      .cls-4{fill:#f3dee3}
+      .cls-5{fill:#f1d1da}
+      .cls-6{fill:#ebc7d1}
+      .cls-7{fill:#edd2d9}
+      .cls-8{fill:url(#linear-gradient-1)}
+      .cls-9{fill:#e1a5b7}
+      .cls-10{fill:#e6b0c0}
+      .cls-11{fill:url(#linear-gradient-2)}
+      .cls-12{fill:#db91a6}
+      .cls-13{fill:#cd6e88}
+      .cls-14{fill:#efbccc}
+      .cls-15{fill:#edc8d2}
+      .cls-16{fill:#e8aebe}
+    </style>
+    <linearGradient id="linear-gradient-1" x1="23.328" y1="36.492" x2="30.919" y2="39.346" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#edd5db"/>
+      <stop offset="1" stop-color="#f9f2f1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="59.105" y1="40.194" x2="53.762" y2="46.526" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e4b9c7"/>
+      <stop offset="1" stop-color="#ebd8dd"/>
+    </linearGradient>
+  </defs>
+  <g>
+        <path d="M43.264 14.988 C45.279 13.06 46.759 10.397 48.969 9.236 L50.287 9.821 C53.811 13.807 56.049 15.897 54.289 21.397 C52.711 23.493 50.928 24.368 48.69 25.736 C45.713 23.682 40.307 18.823 43.264 14.988 Z" class="cls-6"/>
+        <path d="M46.67 12.928 C47.972 14.507 48.328 19.562 48.655 21.936 C50.321 21.752 52.671 21.419 54.289 21.397 C52.711 23.493 50.928 24.368 48.69 25.736 C45.713 23.682 40.307 18.823 43.264 14.988 C44.709 14.837 44.795 14.847 46.148 14.372 Z" class="cls-2"/>
+        <path d="M43.264 14.988 C45.279 13.06 46.759 10.397 48.969 9.236 L50.287 9.821 C48.218 12.944 48.29 10.858 46.67 12.928 L46.148 14.372 C44.795 14.847 44.709 14.837 43.264 14.988 Z" class="cls-3"/>
+      </g>
+</svg>

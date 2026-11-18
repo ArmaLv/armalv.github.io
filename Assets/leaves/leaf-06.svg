@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="68.74 27.34 19.77 24.84">
+  <defs>
+    <style>
+      .cls-1{fill:#e8c1cc}
+      .cls-2{fill:#f4e8eb}
+      .cls-3{fill:#e4b8c4}
+      .cls-4{fill:#f3dee3}
+      .cls-5{fill:#f1d1da}
+      .cls-6{fill:#ebc7d1}
+      .cls-7{fill:#edd2d9}
+      .cls-8{fill:url(#linear-gradient-1)}
+      .cls-9{fill:#e1a5b7}
+      .cls-10{fill:#e6b0c0}
+      .cls-11{fill:url(#linear-gradient-2)}
+      .cls-12{fill:#db91a6}
+      .cls-13{fill:#cd6e88}
+      .cls-14{fill:#efbccc}
+      .cls-15{fill:#edc8d2}
+      .cls-16{fill:#e8aebe}
+    </style>
+    <linearGradient id="linear-gradient-1" x1="23.328" y1="36.492" x2="30.919" y2="39.346" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#edd5db"/>
+      <stop offset="1" stop-color="#f9f2f1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="59.105" y1="40.194" x2="53.762" y2="46.526" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e4b9c7"/>
+      <stop offset="1" stop-color="#ebd8dd"/>
+    </linearGradient>
+  </defs>
+  <g>
+        <path d="M74.294 33.748 C75.538 32.459 76.768 30.856 78.386 30.343 C79.851 30.983 79.401 30.826 80.331 32.652 C83.687 36.672 85.516 38.725 82.037 43.56 C77.033 49.187 73.215 45.021 71.853 39.287 C71.898 36.196 71.743 35.534 74.294 33.748 Z" class="cls-2"/>
+        <path d="M80.331 32.652 C83.687 36.672 85.516 38.725 82.037 43.56 L81.597 43.065 L80.575 41.495 L79.266 41.309 L79.457 40.26 C79.804 37.809 80.052 35.131 80.331 32.652 Z" class="cls-6"/>
+        <path d="M74.294 33.748 C75.538 32.459 76.768 30.856 78.386 30.343 C79.851 30.983 79.401 30.826 80.331 32.652 C80.052 35.131 79.804 37.809 79.457 40.26 C79.182 38.561 79.117 38.261 78.042 36.948 L76.466 34.994 L76.237 33.714 Z" class="cls-10"/>
+        <path d="M76.466 34.994 L78.042 36.948 C79.117 38.261 79.182 38.561 79.457 40.26 L79.266 41.309 L80.575 41.495 L81.597 43.065 C79.322 43.119 79.09 43.513 77.45 42.397 C76.331 40.509 76.529 37.33 76.466 34.994 Z" class="cls-7"/>
+        <path d="M71.853 39.287 C71.898 36.196 71.743 35.534 74.294 33.748 L76.237 33.714 L76.466 34.994 C75.315 36.172 73.129 38.627 71.853 39.287 Z" class="cls-4"/>
+      </g>
+</svg>

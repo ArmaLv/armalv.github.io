@@ -1,0 +1,46 @@
+[
+  {
+    "name": "DialogueSystem",
+    "url": "https://github.com/ArmaLv/DialogueSystem",
+    "description": "Unity Dialogue System for 2D project",
+    "tags": [
+      "dialogue-systems",
+      "editor",
+      "npc",
+      "unity",
+      "unity2d"
+    ],
+    "stars": 0,
+    "languages": [
+      {
+        "name": "HTML",
+        "percent": 67
+      },
+      {
+        "name": "C#",
+        "percent": 33
+      }
+    ],
+    "readme": "Dialogue Editor",
+    "generated": "2026-11-18"
+  },
+  {
+    "name": "FlexibleGridLayout",
+    "url": "https://github.com/ArmaLv/FlexibleGridLayout",
+    "description": "Smarter Flexible Grid Layout",
+    "tags": [
+      "csharp",
+      "unity",
+      "unity-ui"
+    ],
+    "stars": 0,
+    "languages": [
+      {
+        "name": "C#",
+        "percent": 100
+      }
+    ],
+    "readme": "Flexible Grid Layout",
+    "generated": "2026-11-18"
+  }
+]

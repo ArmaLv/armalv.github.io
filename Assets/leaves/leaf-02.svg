@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="77.83 46.83 22.84 26.06">
+  <defs>
+    <style>
+      .cls-1{fill:#e8c1cc}
+      .cls-2{fill:#f4e8eb}
+      .cls-3{fill:#e4b8c4}
+      .cls-4{fill:#f3dee3}
+      .cls-5{fill:#f1d1da}
+      .cls-6{fill:#ebc7d1}
+      .cls-7{fill:#edd2d9}
+      .cls-8{fill:url(#linear-gradient-1)}
+      .cls-9{fill:#e1a5b7}
+      .cls-10{fill:#e6b0c0}
+      .cls-11{fill:url(#linear-gradient-2)}
+      .cls-12{fill:#db91a6}
+      .cls-13{fill:#cd6e88}
+      .cls-14{fill:#efbccc}
+      .cls-15{fill:#edc8d2}
+      .cls-16{fill:#e8aebe}
+    </style>
+    <linearGradient id="linear-gradient-1" x1="23.328" y1="36.492" x2="30.919" y2="39.346" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#edd5db"/>
+      <stop offset="1" stop-color="#f9f2f1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="59.105" y1="40.194" x2="53.762" y2="46.526" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e4b9c7"/>
+      <stop offset="1" stop-color="#ebd8dd"/>
+    </linearGradient>
+  </defs>
+  <g>
+        <path d="M87.075 53.759 C87.157 51.829 87.284 50.851 88.924 49.827 C91.012 50.428 90.386 50.28 92.041 52.297 L93.116 53.337 C93.982 54.386 94.904 55.425 95.648 56.551 C97.67 60.427 97.094 69.882 91.124 69.036 C85.369 65.598 80.825 59.358 87.075 53.759 Z" class="cls-5"/>
+        <path d="M87.075 53.759 C87.157 51.829 87.284 50.851 88.924 49.827 C91.012 50.428 90.386 50.28 92.041 52.297 C91.822 55.15 91.685 65.196 89.805 66.719 C88.43 66.316 87.691 64.941 86.8 63.728 C86.52 59.419 86.352 58.033 87.075 53.759 Z" class="cls-6"/>
+        <path d="M95.648 56.551 C97.67 60.427 97.094 69.882 91.124 69.036 C91.287 68.517 91.496 67.162 91.608 66.561 C94.043 63.041 94.389 60.647 95.648 56.551 Z" class="cls-2"/>
+        <path d="M93.116 53.337 C93.982 54.386 94.904 55.425 95.648 56.551 C94.389 60.647 94.043 63.041 91.608 66.561 C91.669 60.922 92.703 58.507 93.116 53.337 Z" class="cls-7"/>
+      </g>
+</svg>
